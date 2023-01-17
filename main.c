@@ -99,8 +99,7 @@ const uint8_t OledFont[][8] =
   {0x00,0x02,0x01,0x01,0x02,0x01,0x00,0x00},
   {0x00,0x02,0x05,0x05,0x02,0x00,0x00,0x00},
 };
-
-
+ 
 // Function declarations
 void OLED_Command( uint8_t temp);
 void OLED_Data( uint8_t  temp);
@@ -112,6 +111,8 @@ void OLED_Write_String( char *s );
 void OLED_Write_Integer(uint8_t  i);
 void OLED_Write_Float(float f);
 void Delay_ms(int time_ms);
+
+
 
 // Function prototypes initialize, tranmit and rea functions 
 void I2C3_Init ( void );  
@@ -125,40 +126,48 @@ int main(void)
 	 I2C3_Init();
 	 OLED_Init();
 	 OLED_Clear();
+     Configurar_PLL(_10MHZ);
+
+    
     
     // variables for counting
     int count = 0;
     float dec = 0.0;
+           
 
-        while ( 1 ) {
-            
-            /////////////////////
+        while ( 1 ) {   
+
+              /////////////////////
             // Strings
             ///////////////////
             
              OLED_YX( 0, 0 );
              OLED_Write_String( "OLED SSD1306" );
-                             Delay_ms(1000);
+                            Delay_ms(1000);
 
              OLED_YX(1, 0);
              OLED_Write_String ("TM4C123");
-                         Delay_ms(1000);
-            
+                            Delay_ms(1000);
+     
             /////////////////////
             // Integer Count
             ////////////////////
-            
+
+    
+        
             for (count = 0; count <= 100; count++){
-                OLED_YX(2, 0 );
-                OLED_Write_String( "Count:" );
-                OLED_YX(2, 8);
-                OLED_Write_Integer(count);
-                Delay_ms(100);
+               OLED_YX(2, 0 );
+               OLED_Write_String( "Count:" );
+               OLED_YX(2, 8);
+               // Función que convierte un valor en un string 
+               char buffer[100];
+               char *count2 = itoa(count, buffer,10);
+               OLED_Write_String(count2);
+               Delay_ms(1000);
             }
             
             OLED_Clear();
-            Delay_ms(100);
-            
+            Delay_ms(1000);       
           
    }
 }
@@ -336,7 +345,7 @@ void OLED_PutChar(char ch )
    const uint8_t *base = &OledFont[ch - 32][0];
 
     uint8_t bytes[9];
-    //bytes[0] = 0x40;
+    bytes[0] = 0x40;
     memmove( bytes + 1, base, 8 );
        
 		I2C3_Write_Multiple(0x3C,0x40,9,bytes);
@@ -390,11 +399,12 @@ void OLED_Write_String( char *s )
 
 void OLED_Write_Integer(uint8_t  i)
 {
-     char s[20];
-     //sprintf( s, "%d", i ); //instrucción que genera error en GNU ARM EMBEDDED TOOLCHAIN
+     
+     char s[100];
+     sprintf(s, "%c", i); 
      OLED_Write_String( s );
      OLED_Write_String( "     " );
-}
+} 
 
 /*******************************************************************************
  * Function:  void OLED_Write_Float( float f )
@@ -409,7 +419,7 @@ void OLED_Write_Float(float f)
 {
     char* buf11;
     int status;
-    //sprintf( buf11, "%f", f );
+    sprintf( buf11, "%f", f );
     OLED_Write_String(buf11);
     OLED_Write_String( "     " );
 }

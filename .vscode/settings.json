@@ -6,9 +6,9 @@
     "tm4c123gh6pm.h": "c",
     "stdint.h": "c",
     "core_cm4.h": "c",
-    "string.h" : "c",
-    "math.h" : "c",
-    "stdio.h" : "c"
+    "string.h": "c",
+    "math.h": "c",
+    "stdio.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
