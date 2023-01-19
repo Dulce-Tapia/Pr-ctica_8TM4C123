@@ -13,9 +13,10 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
-#include <wchar.h>
 #include "PLL.h"
 #include "TM4C123GH6PM.h"
+#include "I2C3.h"
+#include "OLED.h"
  
  // Define OLED dimensions
 #define OLED_WIDTH 128
